@@ -142,6 +142,11 @@ $ ./node_modules/.bin/mocha test/test/integration/get-repository-test.js
 The examples are run as part of the tests. You can set an `EXAMPLES_GITHUB_TOKEN` environment
 variable (or set it in a `.env` file) to avoid running against GitHub's rate limit.
 
+## Contributing
+
+We would love you to contribute to `@octokit/rest`, pull requests are very welcomed!
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+
 ## Credits
 
 `@octokit/rest` was originally created as `node-github` in 2012 by Mike de Boer from Cloud9 IDE, Inc.

@@ -19,10 +19,11 @@ Before you create a new Issue:
 
 ## Making Changes
 
+Here is an overview of [how `@octokit/rest` works](HOW_IT_WORKS.md).
+
 * Create a topic branch from the master branch.
 * Check for unnecessary whitespace / changes with `git diff --check` before committing.
 * Keep git commit messages clear and appropriate. Ideally follow commit conventions described below.
-	* Please "squash" your commits down to one commit.
 
 ## Submitting the Pull Request
 
