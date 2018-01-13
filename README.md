@@ -142,36 +142,6 @@ $ ./node_modules/.bin/mocha test/test/integration/get-repository-test.js
 The examples are run as part of the tests. You can set an `EXAMPLES_GITHUB_TOKEN` environment
 variable (or set it in a `.env` file) to avoid running against GitHub's rate limit.
 
-## Preview APIs
-
-Accept headers for the preview APIs should be taken care of behind the scenes, but in the event a preview endpoint isn't working, see [here](https://github.com/octokit/rest.js/blob/master/examples/getRawBlob.js) for an example on how to add the required custom accept header.
-
-For updates on endpoints under preview, see https://developer.github.com/changes/.
-
-| Preview API             | Accept header val                                     |
-| -------------------     | -----------------------------------------------       |
-| Blocking Users          | application/vnd.github.giant-sentry-fist-preview+json |
-| Codes of Conduct        | application/vnd.github.scarlet-witch-preview+json     |
-| Commit Search           | application/vnd.github.cloak-preview+json             |
-| Community               | application/vnd.github.black-panther-preview+json     |
-| Deployment              | application/vnd.github.ant-man-preview+json           |
-| Git signing             | application/vnd.github.cryptographer-preview          |
-| Imports                 | application/vnd.github.barred-rock-preview            |
-| Integrations            | application/vnd.github.machine-man-preview            |
-| License                 | application/vnd.github.drax-preview+json              |
-| Marketplace             | application/vnd.github.valkyrie-preview+json          |
-| Migrations              | application/vnd.github.wyandotte-preview+json         |
-| Nested Teams            | application/vnd.github.hellcat-preview+json           |
-| Pages                   | application/vnd.github.mister-fantastic-preview       |
-| Pre-receive             | application/vnd.github.eye-scream-preview             |
-| Projects                | application/vnd.github.inertia-preview+json           |
-| Pull Request Squash     | application/vnd.github.polaris-preview                |
-| Reactions               | application/vnd.github.squirrel-girl-preview          |
-| Review Requests         | application/vnd.github.thor-preview+json              |
-| Star Creation Timestamp | application/vnd.github.v3.star+json                   |
-| Timeline                | application/vnd.github.mockingbird-preview            |
-| Topics                  | application/vnd.github.mercy-preview+json             |
-
 ## Credits
 
 `@octokit/rest` was originally created as `node-github` in 2012 by Mike de Boer from Cloud9 IDE, Inc.
