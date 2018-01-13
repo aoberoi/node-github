@@ -13,123 +13,112 @@
      update the type definition templates in scripts/templates/* -->
 ```js
 const GitHubApi = require('@octokit/rest')
+const github = new GitHubApi()
 
-var github = new GitHubApi({
-    // optional
-  timeout: 5000,
-  host: 'github.my-GHE-enabled-company.com', // should be api.github.com for GitHub
-  pathPrefix: '/api/v3', // for some GHEs; none for GitHub
-  protocol: 'https',
-  port: 9898,
-  proxy: '<proxyUrl>',
-  ca: 'whatever',
+// Compare: https://developer.github.com/v3/repos/#list-organization-repositories
+const {data} = github.repos.getForOrg({
+  org: 'octokit',
+  type: 'public'
+})
+```
+
+All available constructor options with default values
+
+```js
+const github = new GitHubApi({
+  timeout: 0, // 0 means no request timeout
+  requestMedia: 'application/vnd.github.v3+json',
   headers: {
-    'accept': 'application/vnd.github.something-custom',
-    'cookie': 'something custom',
-    'user-agent': 'something custom'
+    'user-agent': 'octokit/rest.js v1.2.3' // v1.2.3 will be current version
   },
-  requestMedia: 'application/vnd.github.something-custom',
-  rejectUnauthorized: false, // default: true
-  family: 6
-})
 
-// TODO: optional authentication here depending on desired endpoints. See below in README.
+  // change for custom GitHub Enterprise URL
+  host: 'api.github.com',
+  pathPrefix: '',
+  protocol: 'https',
+  port: 433,
 
-github.users.getFollowingForUser({
-    // optional
-    // headers: {
-    //     "cookie": "blahblah"
-    // },
-  username: 'defunkt'
-}, function (err, res) {
-  if (err) throw err
-  console.log(JSON.stringify(res))
+  // advanced request options
+  // see https://nodejs.org/api/http.html
+  proxy: undefined,
+  ca: undefined,
+  rejectUnauthorized: undefined,
+  family: undefined
 })
 ```
 
-## Pagination
-
-There are a few pagination-related methods:
-
-```
-hasNextPage(link)
-hasPreviousPage(link)
-hasFirstPage(link)
-hasLastPage(link)
-
-getNextPage(link, headers, callback)
-getPreviousPage(link, headers, callback)
-getFirstPage(link, headers, callback)
-getLastPage(link, headers, callback)
-
-NOTE: link is the response object or the contents of the Link header
-```
-
-See [here](https://github.com/octokit/rest.js/blob/master/examples/paginationCustomHeaders.js) and [here](https://github.com/octokit/rest.js/blob/master/examples/getStarred.js) for examples.
+`@octokit/rest` API docs: https://octokit.github.io/rest.js/
+GitHub v3 REST API docs: https://developer.github.com/v3/
 
 ## Authentication
 
-Most GitHub API calls don't require authentication. As a rule of thumb: If you can see the information by visiting the site without being logged in, you don't have to be authenticated to retrieve the same information through the API. Of course calls, which change data or read sensitive information have to be authenticated.
+Most GitHub API calls don't require authentication. Rules of thumb
 
-You need the GitHub user name and the API key for authentication. The API key can be found in the user's _Account Settings_.
+1. If you can see the information by visiting the site without being logged in, you don't have to be authenticated to retrieve the same information through the API.
+2. If you want to change data, you have to be authenticated.
 
 ```javascript
 // basic
 github.authenticate({
   type: 'basic',
-  username: process.env.USERNAME,
-  password: process.env.PASSWORD
+  username: 'yourusername',
+  password: 'password'
 })
 
 // oauth
 github.authenticate({
   type: 'oauth',
-  token: process.env.AUTH_TOKEN
+  token: 'secrettoken123'
 })
 
 // oauth key/secret (to get a token)
 github.authenticate({
   type: 'oauth',
-  key: process.env.CLIENT_ID,
-  secret: process.env.CLIENT_SECRET
+  key: 'client_id',
+  secret: 'client_secert'
 })
 
-// user token
+// token (https://github.com/settings/tokens)
 github.authenticate({
   type: 'token',
-  token: 'userToken'
+  token: 'secrettoken123'
 })
 
-// integration (jwt)
+// GitHub app
 github.authenticate({
   type: 'integration',
-  token: 'jwt'
+  token: 'secrettoken123'
 })
 ```
 
-Note: `authenticate` is synchronous because it only stores the
-credentials for the next request.
+Note: `authenticate` is synchronous because it only sets the credentials
+for the following requests.
 
-### Creating a token for your application
-[Create a new authorization](https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization).
+## Pagination
 
-1. Use github.authenticate() to authenticate with GitHub using your username / password.
-2. Create an application token programmatically with the scopes you need and, if you use two-factor authentication send the `X-GitHub-OTP` header with the one-time-password you get on your token device.
+There are a few pagination-related methods:
 
-```javascript
-github.authorization.create({
-  scopes: ['user', 'public_repo', 'repo', 'repo:status', 'gist'],
-  note: 'what this auth is for',
-  note_url: 'http://url-to-this-auth-app',
-  headers: {
-    'X-GitHub-OTP': 'two-factor-code'
-  }
-}, function (err, res) {
-  if (err) throw err
-  if (res.token) {
-    // save and use res.token as in the Oauth process above from now on
-  }
+- `hasNextPage(response)`
+- `hasPreviousPage(response)`
+- `hasFirstPage(response)`
+- `hasLastPage(response)`
+- `getNextPage(response)`
+- `getPreviousPage(response)`
+- `getFirstPage(response)`
+- `getLastPage(response)`
+
+Usage
+
+```js
+let response = github.repos.getAll({
+  per_page: 100
 })
+const {data} = response
+
+while (github.hasNextPage(response)) {
+  response = github.getNextPage(response)
+  data = data.concat(response.data)
+}
 ```
 
 ## DEBUG
