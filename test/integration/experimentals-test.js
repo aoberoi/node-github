@@ -2,7 +2,6 @@ const chai = require('chai')
 const nock = require('nock')
 
 const GitHub = require('../../')
-const restEndpoint = require('../../lib/endpoint')
 
 const mocha = require('mocha')
 const describe = mocha.describe
@@ -29,18 +28,5 @@ describe('authentication plugin', () => {
     return github.request({
       url: '/?foo=bar'
     })
-  })
-})
-
-describe('github.endpoint()', () => {
-  it('missing parameter', () => {
-    try {
-      restEndpoint({
-        url: '/orgs/:org/repos'
-      })
-      throw new Error('should throw error')
-    } catch (error) {
-      error.message.should.equal('Missing parameters: org')
-    }
   })
 })
