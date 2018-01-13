@@ -113,7 +113,7 @@ Usage
 let response = github.repos.getAll({
   per_page: 100
 })
-const {data} = response
+let {data} = response
 
 while (github.hasNextPage(response)) {
   response = github.getNextPage(response)
