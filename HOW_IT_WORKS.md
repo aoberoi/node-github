@@ -37,7 +37,7 @@ github.repos.getForOrg({org: 'octokit', type: 'public'})
     </tr>
   </thead>
   <tr>
-    <th>baseUrl</th>
+    <td>baseUrl</td>
     <td><code>'https://api.github.com'</code></td>
     <td>① endpoint defaults</td>
   </tr>
@@ -52,12 +52,12 @@ github.repos.getForOrg({org: 'octokit', type: 'public'})
     <td>① global defaults</td>
   </tr>
   <tr>
-    <th>method</th>
+    <td>method</td>
     <td><code>'GET'</code></td>
     <td>② endpoint defaults</td>
   </tr>
   <tr>
-    <th>url</th>
+    <td>url</td>
     <td><code>'/orgs/:org/repos'</code></td>
     <td>② endpoint defaults</td>
   </tr>
