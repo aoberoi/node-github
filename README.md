@@ -47,12 +47,12 @@ const github = new GitHubApi({
 })
 ```
 
-`@octokit/rest` API docs: https://octokit.github.io/rest.js/
+`@octokit/rest` API docs: https://octokit.github.io/rest.js/  
 GitHub v3 REST API docs: https://developer.github.com/v3/
 
 ## Authentication
 
-Most GitHub API calls don't require authentication. Rules of thumb
+Most GitHub API calls don't require authentication. Rules of thumb:
 
 1. If you can see the information by visiting the site without being logged in, you don't have to be authenticated to retrieve the same information through the API.
 2. If you want to change data, you have to be authenticated.
