@@ -110,13 +110,10 @@ There are a few pagination-related methods:
 Usage
 
 ```js
-let response = github.repos.getAll({
-  per_page: 100
-})
+let response = github.repos.getAll({per_page: 100})
 let {data} = response
-
 while (github.hasNextPage(response)) {
-  response = github.getNextPage(response)
+  response = await github.getNextPage(response)
   data = data.concat(response.data)
 }
 ```
