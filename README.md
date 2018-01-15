@@ -156,7 +156,8 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## Credits
 
-`@octokit/rest` was originally created as `node-github` in 2012 by Mike de Boer from Cloud9 IDE, Inc.
+`@octokit/rest` was originally created as [`node-github`](https://www.npmjs.com/package/github)
+in 2012 by Mike de Boer from Cloud9 IDE, Inc.
 It was adopted and renamed by GitHub in 2017
 
 ## LICENSE
