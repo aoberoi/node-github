@@ -6,7 +6,7 @@ require('dotenv').config()
 const glob = require('glob')
 const proxyquire = require('proxyquire').noCallThru()
 
-const GitHubApi = require('../')
+const Octokit = require('../')
 
 const examplesPaths = glob.sync('*.js', {
   cwd: pathResolve(process.cwd(), 'examples')
@@ -14,23 +14,23 @@ const examplesPaths = glob.sync('*.js', {
 
 examplesPaths.forEach(runExample)
 
-function runExample (name, i) {
+function runExample (name) {
   proxyquire(`../examples/${name}`, {
     '@octokit/rest': function (options) {
       if (!options) options = {}
       options.debug = false
-      const github = new GitHubApi(options)
+      const octokit = Octokit(options)
 
-        // set a EXAMPLES_GITHUB_TOKEN environment variable to avoid
-        // running against GitHub's rate limiting
+          // set a EXAMPLES_GITHUB_TOKEN environment variable to avoid
+          // running against GitHub's rate limiting
       if (process.env.EXAMPLES_GITHUB_TOKEN) {
-        github.authenticate({
+        octokit.authenticate({
           type: 'token',
           token: process.env.EXAMPLES_GITHUB_TOKEN
         })
       }
 
-      return github
+      return octokit
     }
   })
 }

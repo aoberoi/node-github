@@ -12,11 +12,10 @@
 <!-- HEADS UP: when changing the options for the constructor, make sure to also
      update the type definition templates in scripts/templates/* -->
 ```js
-const GitHubApi = require('@octokit/rest')
-const github = new GitHubApi()
+const octokit = require('@octokit/rest')()
 
 // Compare: https://developer.github.com/v3/repos/#list-organization-repositories
-github.repos.getForOrg({
+octokit.repos.getForOrg({
   org: 'octokit',
   type: 'public'
 }).then(({data}) => {
@@ -24,10 +23,10 @@ github.repos.getForOrg({
 })
 ```
 
-All available constructor options with default values
+All available client options with default values
 
 ```js
-const github = new GitHubApi({
+const octokit = require('@octokit/rest')({
   timeout: 0, // 0 means no request timeout
   requestMedia: 'application/vnd.github.v3+json',
   headers: {
@@ -61,33 +60,33 @@ Most GitHub API calls don't require authentication. Rules of thumb:
 
 ```javascript
 // basic
-github.authenticate({
+octokit.authenticate({
   type: 'basic',
   username: 'yourusername',
   password: 'password'
 })
 
 // oauth
-github.authenticate({
+octokit.authenticate({
   type: 'oauth',
   token: 'secrettoken123'
 })
 
 // oauth key/secret (to get a token)
-github.authenticate({
+octokit.authenticate({
   type: 'oauth',
   key: 'client_id',
   secret: 'client_secert'
 })
 
 // token (https://github.com/settings/tokens)
-github.authenticate({
+octokit.authenticate({
   type: 'token',
   token: 'secrettoken123'
 })
 
 // GitHub app
-github.authenticate({
+octokit.authenticate({
   type: 'integration',
   token: 'secrettoken123'
 })
@@ -115,14 +114,14 @@ Usage
 async function paginate (method) {
   let response = method({per_page: 100})
   let {data} = response
-  while (github.hasNextPage(response)) {
-    response = await github.getNextPage(response)
+  while (octokit.hasNextPage(response)) {
+    response = await octokit.getNextPage(response)
     data = data.concat(response.data)
   }
   return data
 }
 
-paginate(github.repos.getAll)
+paginate(octokit.repos.getAll)
   .then(data => {
     // handle all results
   })

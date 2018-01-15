@@ -3,7 +3,7 @@ const fs = require('fs')
 const chai = require('chai')
 const nock = require('nock')
 
-const GitHub = require('../../')
+const Octokit = require('../../')
 
 const mocha = require('mocha')
 const describe = mocha.describe
@@ -12,7 +12,7 @@ chai.should()
 
 describe('github.repos.uploadAsset', () => {
   it('accepts file stream (#675)', () => {
-    const github = new GitHub()
+    const github = Octokit()
     const size = fs.statSync(__filename).size
 
     nock('https://upload.test')
