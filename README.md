@@ -16,9 +16,11 @@ const GitHubApi = require('@octokit/rest')
 const github = new GitHubApi()
 
 // Compare: https://developer.github.com/v3/repos/#list-organization-repositories
-const {data} = github.repos.getForOrg({
+github.repos.getForOrg({
   org: 'octokit',
   type: 'public'
+}).then(({data}) => {
+  // handle data
 })
 ```
 
@@ -110,12 +112,20 @@ There are a few pagination-related methods:
 Usage
 
 ```js
-let response = github.repos.getAll({per_page: 100})
-let {data} = response
-while (github.hasNextPage(response)) {
-  response = await github.getNextPage(response)
-  data = data.concat(response.data)
+async function paginate (method) {
+  let response = method({per_page: 100})
+  let {data} = response
+  while (github.hasNextPage(response)) {
+    response = await github.getNextPage(response)
+    data = data.concat(response.data)
+  }
+  return data
 }
+
+paginate(github.repos.getAll)
+  .then(data => {
+    // handle all results
+  })
 ```
 
 ## DEBUG
