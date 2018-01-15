@@ -73,6 +73,7 @@
     "postpublish": "npm run -s deploy-docs"
   },
   "license": "MIT",
+  "main": "index.js",
   "files": [
     "lib"
   ],
